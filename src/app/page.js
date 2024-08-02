@@ -110,7 +110,7 @@ export default function Home() {
             <div className="w-2/4 h-2/4 pt-5 mb-3">
               <Camera ref={camera} aspectRatio={16 / 9}/>
               <div className="mt-5 flex items-center justify-center">
-                <CameraIcon style={{cursor:"pointer"}} onClick={() => {setImage(camera.current.takePhoto()); response()}}/>
+                <CameraIcon style={{cursor:"pointer"}} onClick={() => {setImage(camera.current.takePhoto())}}/>
               </div>                
               {image && <img src={image} alt='Pantry tracker' style={{ maxWidth: '100%', maxHeight: '100%' }} />}
             </div>
