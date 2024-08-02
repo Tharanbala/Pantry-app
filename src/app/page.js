@@ -63,23 +63,25 @@ export default function Home() {
  
   // read item from pantry
   useEffect (() => {
-    const t = query(collection(db, 'pantry'))
-    const read = onSnapshot(t, (querySnapshot) => {
-      let itemsArr = []
+    if (typeof window !== 'undefined') {
+      const t = query(collection(db, 'pantry'))
+      const read = onSnapshot(t, (querySnapshot) => {
+        let itemsArr = []
 
-      querySnapshot.forEach((doc) => {
-        itemsArr.push({...doc.data(), id: doc.id})
+        querySnapshot.forEach((doc) => {
+          itemsArr.push({...doc.data(), id: doc.id})
+        })
+        setItems(itemsArr)
+
+        // calculate total from itemsArr
+        const calculate = () => {
+          const totalQuantity = itemsArr.reduce((sum, item) => sum + parseFloat(item.quantity),0)
+          setTotal(totalQuantity) 
+        }
+        calculate();
+        return () => read();
       })
-      setItems(itemsArr)
-
-      // calculate total from itemsArr
-      const calculate = () => {
-        const totalQuantity = itemsArr.reduce((sum, item) => sum + parseFloat(item.quantity),0)
-        setTotal(totalQuantity) 
-      }
-      calculate();
-      return () => read();
-    })
+    }
   }, []);
 
   // delete item in pantry
